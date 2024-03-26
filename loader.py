@@ -7,6 +7,7 @@ from streamlit.logger import get_logger
 from chains import load_embedding_model
 from utils import create_constraints, create_vector_index
 from PIL import Image
+from security import safe_requests
 
 load_dotenv(".env")
 
@@ -38,7 +39,7 @@ def load_so_data(tag: str = "neo4j", page: int = 1) -> None:
         f"?pagesize=100&page={page}&order=desc&sort=creation&answers=1&tagged={tag}"
         "&site=stackoverflow&filter=!*236eb_eL9rai)MOSNZ-6D3Q6ZKb0buI*IVotWaTb"
     )
-    data = requests.get(so_api_base_url + parameters).json()
+    data = safe_requests.get(so_api_base_url + parameters).json()
     insert_so_data(data)
 
 
