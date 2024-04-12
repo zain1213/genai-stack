@@ -17,7 +17,8 @@ from typing import List, Any
 from utils import BaseLogger, extract_title_and_question
 
 
-def load_embedding_model(embedding_model_name: str, logger=BaseLogger(), config={}):
+def load_embedding_model(embedding_model_name: str, logger=BaseLogger(), config=None):
+    config = {} if config is None else config
     if embedding_model_name == "ollama":
         embeddings = OllamaEmbeddings(
             base_url=config["ollama_base_url"], model="llama2"
@@ -41,7 +42,8 @@ def load_embedding_model(embedding_model_name: str, logger=BaseLogger(), config=
     return embeddings, dimension
 
 
-def load_llm(llm_name: str, logger=BaseLogger(), config={}):
+def load_llm(llm_name: str, logger=BaseLogger(), config=None):
+    config = {} if config is None else config
     if llm_name == "gpt-4":
         logger.info("LLM: Using GPT-4")
         return ChatOpenAI(temperature=0, model_name="gpt-4", streaming=True)
